@@ -73,6 +73,16 @@ new Swiper('.promotion .swiper', {
     nextEl: '.promotion .swiper-next',
   }
 });
+new Swiper('.awards .swiper', {
+  autoplay: true,
+  loop: true,
+  spaceBetween: 30,
+  slidesPerView: 5,
+  navigation: {
+    prevEl: '.awards .swiper-prev',
+    nextEl: '.awards .swiper-next',
+  }
+});
 
 
 
@@ -84,9 +94,49 @@ promotionToggleBtn.addEventListener('click', function () {
   isHidePromotion = !isHidePromotion;
   if (isHidePromotion) {
     // 프로모션 영역 숨기기
-    promotionEl.classList.add('hide');  
+    promotionEl.classList.add('hide');
   } else {
     // 프로모션 영역 보이기
-    promotionEl.classList.remove('hide');  
+    promotionEl.classList.remove('hide');
   }
 });
+
+
+// 범위 랜덤 함수(소수점 2자리까지)
+function random(min, max) {
+  // `.toFixed()`를 통해 반환된 문자 데이터를,
+  // `parseFloat()`을 통해 소수점을 가지는 숫자 데이터로 변환
+  return parseFloat((Math.random() * (max - min) + min).toFixed(2))
+}
+
+function floatingObject(selector, delay, size) {
+  // gsap.to(요소, 지속시간, 옵션)
+  gsap.to(
+    selector, 
+    random(1.5, 2.5), 
+    {
+      y: size,
+      repeat: -1,
+      yoyo: true,
+      ease: Power1.easeInOut,
+      delay: random(0, delay),
+    }
+  );
+}
+
+floatingObject('.floating1', 1, 15);
+floatingObject('.floating2', .5, 15);
+floatingObject('.floating3', 1.5, 20);
+
+const spyEls = document.querySelectorAll('section.scroll-spy');
+spyEls.forEach(function (spyEl) {
+  new ScrollMagic
+    .Scene({
+      triggerElement: spyEl, // 보여짐 여부를 감시할 요소
+      triggerHook: .8,
+    })
+    .setClassToggle(spyEl, 'show')
+    .addTo(new ScrollMagic.Controller());
+});
+
+
